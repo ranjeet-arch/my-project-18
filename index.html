@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chroma Subtitle Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">Client-side subtitle maker</p>
+        <h1>Turn audio into green-screen subtitles and download an MP4.</h1>
+        <p class="lede">
+          Upload an audio file, transcribe it in the browser, preview the subtitles on a pure green
+          background, and export the result as a downloadable MP4.
+        </p>
+      </section>
+
+      <section class="workspace">
+        <div class="panel controls">
+          <h2>Source</h2>
+          <label class="field">
+            <span>Audio file</span>
+            <input id="audio-file" type="file" accept="audio/*" />
+          </label>
+
+          <div class="meta-grid">
+            <div>
+              <span class="meta-label">Selected file</span>
+              <strong id="file-name">None</strong>
+            </div>
+            <div>
+              <span class="meta-label">Duration</span>
+              <strong id="audio-duration">0.0s</strong>
+            </div>
+          </div>
+
+          <h2>Subtitle style</h2>
+          <div class="field-row">
+            <label class="field">
+              <span>Font size</span>
+              <input id="font-size" type="range" min="44" max="110" value="72" />
+            </label>
+            <output id="font-size-value">72px</output>
+          </div>
+
+          <div class="field-row">
+            <label class="field">
+              <span>Bottom margin</span>
+              <input id="bottom-padding" type="range" min="40" max="220" value="100" />
+            </label>
+            <output id="bottom-padding-value">100px</output>
+          </div>
+
+          <div class="field-row">
+            <label class="field">
+              <span>Words per line</span>
+              <input id="words-per-line" type="range" min="2" max="8" value="4" />
+            </label>
+            <output id="words-per-line-value">4</output>
+          </div>
+
+          <div class="button-row">
+            <button id="transcribe-button" class="primary" disabled>Transcribe Audio</button>
+            <button id="download-srt-button" disabled>Save SRT</button>
+          </div>
+
+          <div class="button-row">
+            <button id="preview-button" disabled>Preview</button>
+            <button id="export-button" class="primary" disabled>Save Preview MP4</button>
+          </div>
+
+          <div class="status-card">
+            <span class="meta-label">Status</span>
+            <p id="status-text">Choose an audio file to begin.</p>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progress-bar" class="progress-bar"></div>
+            </div>
+          </div>
+
+          <div id="download-panel" class="download-panel" hidden>
+            <span class="meta-label">File ready</span>
+            <strong id="download-file-name"></strong>
+            <a id="download-link" class="download-link" href="#" download>Download file</a>
+            <button id="hide-download-panel" type="button">Hide</button>
+            <p id="download-hint">
+              If no save window appears, use this button and check your browser downloads.
+            </p>
+          </div>
+
+          <details class="notes">
+            <summary>How it works</summary>
+            <p>
+              Transcription runs in your browser with a Whisper model loaded on demand. MP4 export
+              creates a subtitle-only chroma video for overlaying in an editor.
+            </p>
+          </details>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="preview-header">
+            <h2>Preview</h2>
+            <span id="preview-clock">00:00 / 00:00</span>
+          </div>
+
+          <canvas id="preview-canvas" width="1280" height="720"></canvas>
+          <audio id="preview-audio" controls controlsList="nodownload noremoteplayback"></audio>
+          <div class="preview-actions">
+            <button id="preview-export-button" class="primary" disabled>Save Preview MP4</button>
+          </div>
+
+          <div class="transcript-panel">
+            <div class="transcript-header">
+              <h3>Transcript</h3>
+              <span id="segment-count">0 subtitle cards</span>
+            </div>
+            <textarea id="transcript-output" readonly></textarea>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

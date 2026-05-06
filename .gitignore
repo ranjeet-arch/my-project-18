@@ -1,0 +1,7 @@
+__pycache__/
+exports/*
+!exports/.gitkeep
+.DS_Store
+.vscode/
+node_modules/
+*.log
